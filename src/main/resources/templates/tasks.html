@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Мої задачі</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    button, input[type="text"] {
+      padding: 10px;
+      font-size: 1em;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .add-task-link {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #007bff;
+      margin-right: 20px;
+    }
+
+    .add-task-link:hover {
+      color: #0056b3;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    header .logout {
+      color: white;
+      font-size: 1em;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    header .logout:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">Головна</div>
+  <a class="logout" href="/">Вийти</a>
+</header>
+
+<div class="container">
+  <h2>Мої задачі</h2>
+
+  <div class="form-container">
+    <a class="add-task-link" href="/tasks/add">Додати задачу</a>
+
+    <form action="/tasks/search" method="GET">
+      <input type="text" name="query" placeholder="Пошук задач">
+      <button type="submit">Шукати</button>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Назва</th>
+      <th>Пріоритет</th>
+      <th>Статус</th>
+      <th>Операції</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="task : ${tasks}">
+      <tr>
+        <td th:text="${task.title}"></td>
+        <td th:text="${task.priority}"></td>
+        <td th:text="${task.status}"></td>
+        <td>
+          <a th:href="@{/tasks/view/{id}(id=${task.id})}">Переглянути</a> |
+          <a th:href="@{/tasks/edit/{id}(id=${task.id})}">Редагувати</a> |
+          <a th:href="@{/tasks/delete/{id}(id=${task.id})}">Видалити</a>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

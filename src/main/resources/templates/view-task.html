@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Перегляд задачі</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        strong {
+            color: #333;
+        }
+
+        .task-info {
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Задача: <span th:text="${task.title}"></span></h2>
+
+    <div class="task-info">
+        <p><strong>Опис:</strong> <span th:text="${task.description}"></span></p>
+        <p><strong>Пріоритет:</strong> <span th:text="${task.priority}"></span></p>
+        <p><strong>Статус:</strong> <span th:text="${task.status}"></span></p>
+        <p><strong>Виконано:</strong> <span th:text="${task.completed ? 'Так' : 'Ні'}"></span></p>
+    </div>
+
+    <div class="actions">
+        <a th:href="@{/tasks/edit/{id}(id=${task.id})}">Редагувати задачу</a> |
+        <a th:href="@{/tasks/delete/{id}(id=${task.id})}">Видалити задачу</a>
+    </div>
+
+    <a href="/tasks" class="back-button">Назад до задач</a>
+</div>
+</body>
+</html>
