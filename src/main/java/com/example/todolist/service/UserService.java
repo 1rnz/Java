@@ -3,9 +3,8 @@ package com.example.todolist.service;
 import com.example.todolist.model.User;
 import com.example.todolist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -13,17 +12,20 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Реєстрація нового користувача
-    public User registerUser(String username, String password) {
-        if (userRepository.findByUsername(username).isPresent()) {
-            return null; // Користувач уже існує
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public void registerUser(String username, String password) {
+        if (userRepository.existsByUsername(username)) {
+            throw new RuntimeException("Користувач з таким ім’ям вже існує");
         }
-        return userRepository.save(new User(username, password));
+        User user = new User(username, passwordEncoder.encode(password));
+        userRepository.save(user);
     }
 
-    // Перевірка логіна
     public User loginUser(String username, String password) {
-        Optional<User> user = userRepository.findByUsername(username);
-        return user.filter(u -> u.getPassword().equals(password)).orElse(null);
+        return userRepository.findByUsername(username)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElseThrow(() -> new RuntimeException("Невірні ім’я користувача або пароль"));
     }
 }
